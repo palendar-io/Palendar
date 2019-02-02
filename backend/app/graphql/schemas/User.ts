@@ -1,7 +1,7 @@
 
 import { buildSchema } from 'graphql';
 
-const typeDefs = buildSchema(`
+const userSchema = buildSchema(`
     type User {
         _id: Int!
         firstName: String
@@ -9,6 +9,11 @@ const typeDefs = buildSchema(`
         email: String
         password: String
     }
+
+    input UserInput {
+        email: String!
+        password: String!
+    }
 `);
 
-module.exports = typeDefs;
+module.exports = userSchema;

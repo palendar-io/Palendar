@@ -10,11 +10,13 @@ dotenv.config({ path: "../.env"});
 mongoose.connect(process.env.MONGO_CONNECTION!,{useNewUrlParser: true})
 
 //Models
-const User = require('./models/User');
+
 
 
 // GraphQL Schemas and Resolvers
-const usScema = require('./graphql/schemas/User')
+const graphQLSchema = require('./graphql/schemas/index');
+const graphQLResolvers = require('./graphql/resolvers/index');
+
 
 const app = express();
 
@@ -22,7 +24,7 @@ app.use(express.json());
 app.set("port", process.env.PORT || 8080);
 
 app.use('/graphql', graphqlHTTP({
-    schema: usScema,
+    schema: graphQLSchema,
     rootValue: {
         users: () =>{
             return 'test successfull'
