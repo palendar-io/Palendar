@@ -9,16 +9,27 @@ dotenv.config({ path: "../.env"});
 // Database Connection
 mongoose.connect(process.env.MONGO_CONNECTION!,{useNewUrlParser: true})
 
-
 //Models
 const User = require('./models/User');
+
+
+// GraphQL Schemas and Resolvers
+const usScema = require('./graphql/schemas/User')
 
 const app = express();
 
 app.use(express.json());
 app.set("port", process.env.PORT || 8080);
 
-app.use('/graphql', graphqlHTTP)
+app.use('/graphql', graphqlHTTP({
+    schema: usScema,
+    rootValue: {
+        users: () =>{
+            return 'test successfull'
+        }
+    },
+    graphiql: true
+}))
 
 
 

@@ -2,30 +2,32 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
-    firstName: {
+const eventSchema = new Schema({
+    name: {
         type: String,
         required: true
     },
-    lastName: {
+    description: {
         type: String,
         required: true
     },
-    email: {
+    price: {
         type: String,
         required: true
     },
-    password: {
-        type: String,
+    date: {
+        type: Date,
         required: true
-    }
-    friends: [
+    },
+    attendees:[
         {
-            type: Schema.Types.ObjectId
+            type: Schema.Types.ObjectId,
             ref: 'User'
         }
     ]
-});
+})
 
-module.exports = mongoose.model('User',userSchema);
+module.exports = mongoose.model('Event', eventSchema);
+
+
 
