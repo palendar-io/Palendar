@@ -21,9 +21,6 @@ export default class Header extends Component {
               </div>
               <ul className="uk-navbar-nav uk-visible@m">
                 <li>
-                  <a href="#">Accounts</a>
-                </li>
-                <li>
                   <a href="#">
                     Settings <span data-uk-icon="icon: triangle-down" />
                   </a>
@@ -61,19 +58,6 @@ export default class Header extends Component {
                   </div>
                 </li>
               </ul>
-              <div className="uk-navbar-item uk-visible@s">
-                <form
-                  action="dashboard.html"
-                  className="uk-search uk-search-default"
-                >
-                  <span data-uk-search-icon />
-                  <input
-                    className="uk-search-input search-field"
-                    type="search"
-                    placeholder="Search"
-                  />
-                </form>
-              </div>
             </div>
             <div className="uk-navbar-right">
               <ul className="uk-navbar-nav">

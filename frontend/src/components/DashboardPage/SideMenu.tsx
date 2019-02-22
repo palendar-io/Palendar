@@ -171,7 +171,7 @@ export default class SideMenu extends Component {
               <li>
                 <a href="#">
                   <span
-                    data-uk-icon="icon: album"
+                    data-uk-icon="icon: list"
                     className="uk-margin-small-right"
                   />
                   Tasks & Events
@@ -194,23 +194,6 @@ export default class SideMenu extends Component {
                   />
                   Tips
                 </a>
-              </li>
-              <li className="uk-parent">
-                <a href="#">
-                  <span
-                    data-uk-icon="icon: comments"
-                    className="uk-margin-small-right"
-                  />
-                  Reports
-                </a>
-                <ul className="uk-nav-sub">
-                  <li>
-                    <a href="#">Sub item</a>
-                  </li>
-                  <li>
-                    <a href="#">Sub item</a>
-                  </li>
-                </ul>
               </li>
             </ul>
             <div className="left-content-box uk-margin-top">
