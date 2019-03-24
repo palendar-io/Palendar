@@ -12,8 +12,9 @@ class Calendar extends React.Component {
 
   events = [{name: "Grocery", startTime: "8:00pm", endTime: "9:00pm", date: new Date(2019, 1, 10), description: "Shopping List"},
     {name: "Gym Workout", startTime: "11:00pm", endTime: "12:00pm", date: new Date(2019, 1, 22), description: "Yoga with Carol"},
+    {name: "Dinner with Iris van Herpen", startTime: "6:00pm", endTime: "7:00pm", date: new Date(2019, 1, 15), description: "Getting inspiration from one of the most avant garde designers of this generatino"},
     {name: "Lunch with Guo Pei", startTime: "12:00pm", endTime: "1:00pm", date: new Date(2019, 2, 15), description: "Dinner with Chinese pride desu"},
-    {name: "Dinner with Iris van Herpen", startTime: "6:00pm", endTime: "7:00pm", date: new Date(2019, 2, 15), description: "Getting inspiration from one of the most avant garde designers of this generatino"},];
+    {name: "Lunch with Guo Pei", startTime: "12:00pm", endTime: "1:00pm", date: new Date(2019, 2, 20), description: "Dinner with Chinese pride desu"}];
 
   showModal = () => {
     this.state.setState({modalIsOpen : true});

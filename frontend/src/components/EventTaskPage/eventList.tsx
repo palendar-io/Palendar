@@ -13,7 +13,7 @@ class EventList extends React.Component{
 
     renderList(){
         let x = 0;
-        let event = [];
+        let event: any[] = [];
         let dateFormat = "MMMM D YYYY"
         this.events.forEach(element => {
             event.push(
