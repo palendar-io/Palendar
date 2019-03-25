@@ -1,4 +1,5 @@
 import React, { Component, FormEvent, ChangeEvent } from "react";
+import { NavLink } from "react-router-dom";
 
 export default class AuthPage extends Component {
   constructor(props: any) {
@@ -65,9 +66,11 @@ export default class AuthPage extends Component {
                     </div>
                   </div>
                   <div className="uk-text-center uk-margin">
-                    <button className="uk-button uk-button-primary ">
-                      Submit
-                    </button>
+                    <NavLink to="/dashboard">
+                      <button className="uk-button uk-button-primary ">
+                        Submit
+                      </button>
+                    </NavLink>
                   </div>
                 </fieldset>
               </form>

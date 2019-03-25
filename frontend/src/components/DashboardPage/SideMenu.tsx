@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
 
 import "./dashboard.css";
 import ProfileImage from "../../images/avatar.svg";
@@ -75,6 +76,7 @@ export default class SideMenu extends Component {
               data-uk-nav
             >
               <li className="uk-nav-header">ACTIONS</li>
+
               <li>
                 <a href="#">
                   <span
@@ -84,14 +86,17 @@ export default class SideMenu extends Component {
                   Home
                 </a>
               </li>
+
               <li>
-                <a href="#">
-                  <span
-                    data-uk-icon="icon: calendar"
-                    className="uk-margin-small-right"
-                  />
-                  Calendar
-                </a>
+                <NavLink to="/dashboard/calendar">
+                  <a href="#">
+                    <span
+                      data-uk-icon="icon: calendar"
+                      className="uk-margin-small-right"
+                    />
+                    Calendar
+                  </a>
+                </NavLink>
               </li>
               <li className="uk-parent">
                 <a href="#">
