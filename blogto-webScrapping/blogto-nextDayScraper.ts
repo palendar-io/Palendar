@@ -22,14 +22,14 @@
      const numberOfDays = 14;
      for (let i = 0; i < numberOfDays; i++) {
        //Get current selected date button Attributes
-       const year = Number(await page.$$eval(".is-selected button", e =>
-         e.map(el => el.getAttribute("data-pika-year")))
+       const year: Number = Number(await page.$$eval(".is-selected button", (e: { map: (arg0: (el: { getAttribute: (arg0: string) => void; }) => void) => void; }) =>
+         e.map((el: { getAttribute: (arg0: string) => void; }) => el.getAttribute("data-pika-year")))
        );
-       const month = Number(await page.$$eval(".is-selected button", e =>
-         e.map(el => el.getAttribute("data-pika-month")))
+       const month: Number = Number(await page.$$eval(".is-selected button", (e: { map: (arg0: (el: { getAttribute: (arg0: string) => void; }) => void) => void; }) =>
+         e.map((el: { getAttribute: (arg0: string) => void; }) => el.getAttribute("data-pika-month")))
        );
-       const day = Number(await page.$$eval(".is-selected button", e =>
-         e.map(el => el.getAttribute("data-pika-day")))
+       const day: Number = Number(await page.$$eval(".is-selected button", (e: { map: (arg0: (el: any) => any) => void; }) =>
+         e.map((el: { getAttribute: (arg0: string) => void; }) => el.getAttribute("data-pika-day")))
        );
  
        //Select the 'next day' button, and click
@@ -46,19 +46,19 @@
        for (const event of events) {
          const title = await event.$eval(
            ".event-info-box-title-link",
-           title => title.innerText
+           (           title: { innerText: string; }) => title.innerText
          );
          const description = await event.$eval(
            ".event-info-box-description",
-           description => description.innerText
+           (           description: { innerText: string; }) => description.innerText
          );
          const time = await event.$eval(
            ".event-info-box-date",
-           time => time.innerText
+           (           time: { innerText: string; }) => time.innerText
          );
          const location = await event.$eval(
            ".event-info-box-venue",
-           location => location.innerText
+           (           location: { innerText: string; }) => location.innerText
          );
  
          //create event object
