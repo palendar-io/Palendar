@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import data from './events.json';
 /**
- * 1. yarn add @types/puppeteer
- * 2. For JSON file to work, add the following code to 
+ * Should be able to plug and play along with the events.json file  without adding any extra libararies
+ * 
+ * If JSON file doesn't work, check to see if the following code is in the 
  *    Compiler options in the tsconfig.json file
  *     "resolveJsonModule": true,
  *     "esModuleInterop": true,
