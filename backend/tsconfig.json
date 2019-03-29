@@ -2,19 +2,18 @@
   "compilerOptions": {
     "target": "es6",
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
-    "esModuleInterop": true,
     "module": "commonjs",
     "sourceMap": true,
     "rootDir": "src",
     "outDir": "dist",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    
     "lib": [
-      "esnext",
+      "esnext", "dom",
       "es2015",
-      "dom",
       "es6",
-      "dom",
       "es2015.core",
       "es2015.collection",
       "es2015.generator",
