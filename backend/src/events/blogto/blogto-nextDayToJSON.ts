@@ -2,14 +2,15 @@
  * This js file is used to test the puppeteer library for web-scraping
  * It clicks next day 14 times, and grabs the event info for the next 2 weeks, starting from current date
  --------------------------------------------------------------------------------------------------*/
-const puppeteer = require("puppeteer");
-var fs = require('fs');
+import puppeteer from 'puppeteer';
+import * as fs from 'fs';
 
-var data = {};
-data.events = [];
 
- (async function main() {
-   try {
+let events: object[] = [];
+var data = {events};
+
+ async function blogtoScraper() {
+   
      //If you want to see what is going on in real-time, set headless to false, otherwise, set to true
      const browser = await puppeteer.launch({ headless: false });
      const page = await browser.newPage();
@@ -40,7 +41,9 @@ data.events = [];
        const nextDayButton = await page.$(
          ".event-info-box-viewer-date-next-button-container button.fd-button"
        );
-       nextDayButton.click();
+       if(nextDayButton){
+        nextDayButton.click();
+       }
  
        await page.waitForSelector("#date-events-section");
        const events = await page.$$(
@@ -48,22 +51,19 @@ data.events = [];
        );
  
        for (const event of events) {
-         const title = await event.$eval(
-           ".event-info-box-title-link",
-           title => title.innerText
-         );
-         const description = await event.$eval(
-           ".event-info-box-description",
-           description => description.innerText
-         );
-         const time = await event.$eval(
-           ".event-info-box-date",
-           time => time.innerText
-         );
-         const location = await event.$eval(
-           ".event-info-box-venue",
-           location => location.innerText
-         );
+
+        const titleElement = await event.$(".event-info-box-title-link");
+        const title = await page.evaluate(element => element.innerText, titleElement);
+
+        const descriptionElement = await event.$(".event-info-box-description");
+        const description = await page.evaluate(element => element.innerText, descriptionElement);
+
+        const timeElement = await event.$(".event-info-box-date");
+        const time = await page.evaluate(element => element.innerText, timeElement);
+
+        const locationElement = await event.$(".event-info-box-venue");
+        const location = await page.evaluate(element =>  element.innerText, locationElement);
+
  
          //create event object
          let eventObject = {
@@ -76,17 +76,20 @@ data.events = [];
            location
          };
          data.events.push(eventObject);
-         console.log(eventObject);
+         //console.log(eventObject);
        }
      }
-     fs.writeFile ("events.json", JSON.stringify(data), function(err) {
-      if (err) throw err;
-      console.log('complete');
-      }
-  );
 
-   } catch (e) {
-     console.log(e);
-   }
- })();
- 
+     return new Promise((resolve, reject)=>{
+      fs.writeFile ("blogtoEvents.json", JSON.stringify(data), function(err) {
+          resolve('Blogto 2 weeks event scraping complete');
+          if(err) reject(err);
+        })
+     })
+
+
+ };
+
+ blogtoScraper()
+ .then(res => console.log(res))
+ .catch(err => console.log(err))
