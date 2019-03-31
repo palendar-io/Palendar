@@ -1,10 +1,15 @@
 import * as  data from './blogtoEvents.json';
+// import blogtoScraper from './blogto-nextDayToJSON';
+import blogtoScraper from './blogto-nextDayToJSON';
 const express = require("express");
 const app = express();
 const port = 8080;
 
 // define a route handler for the default home page
 app.get( "/", ( req, res ) => {
+    blogtoScraper()
+    .then(res => console.log(res))
+    .catch(err => console.log(err))
     res.send(data);
 } );
 
