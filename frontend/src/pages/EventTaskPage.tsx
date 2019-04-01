@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 
-import EventList from "../components/EventTaskPage/EventList";
+import EventList from "../components/EventComponents/EventList";
 
 export default class SchedulePage extends Component {
   render() {
     return (
       <div>
-        <EventList />
+        <EventList userid = ""/>
       </div>
     );
   }

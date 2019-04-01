@@ -1,23 +1,30 @@
 import React from "react";
 import dateFns from "date-fns";
 
-class TaskList extends React.Component{
+import task from "./task";
+import * as taskAPI from "./taskAPI"
+
+type MyProps = {userid: String};
+
+class TaskList extends React.Component<MyProps>{
     state = {
         tasksCompleted: 0,
         tasksFailed: 0
     }
 
-    tasks = [{name: "Groceries", dueDate: new Date(2019, 3, 24), dueTime: new Date(17, 30), description: "Grocery list: eggs, milk, bread, chips",complete: false, failed: true},
+    /*tasks = [{name: "Groceries", dueDate: new Date(2019, 3, 24), dueTime: new Date(17, 30), description: "Grocery list: eggs, milk, bread, chips",complete: false, failed: true},
         {name: "Groceries", dueDate: new Date(2019, 3, 26), dueTime: new Date(17, 30), description: "Grocery list: eggs, milk, bread, chips", complete: true, failed: false},
         {name: "Project", dueDate: new Date(2019, 3, 28), dueTime: new Date(23, 30), description: "Fullstack socket io project", complete: false, failed: false},
         {name: "Mail", dueDate: new Date(2019, 3, 29), dueTime: new Date(17, 30), description: "Get Mail", complete: true, failed: false},
-    ]
+    ]*/
+
+    tasks : task[] = taskAPI.getTasks(this.props.userid);
 
     renderComplete(){
         let completeTasks: any[] = [];
         let x = 0
         this.tasks.forEach(task => {
-            if(task.complete === true){
+            if(task.complete === true && task.name !== ""){
                 completeTasks.push(
                     <div className = "task-list-task" key = {x}>
                         <div className = "task-list-task-header">{task.name}</div>
@@ -40,7 +47,7 @@ class TaskList extends React.Component{
         let failedTasks: any[] = [];
         let x = 0
         this.tasks.forEach(task => {
-            if(task.failed === true){
+            if(task.failed === true && task.name !== ""){
                 failedTasks.push(
                     <div className = "task-list-task" key = {x}>
                         <div className = "task-list-task-header">{task.name}</div>
@@ -63,7 +70,7 @@ class TaskList extends React.Component{
         let ongoingTasks: any[] = [];
         let x = 0
         this.tasks.forEach(task => {
-            if(task.failed === false && task.complete === false){
+            if(task.failed === false && task.complete === false && task.name !== ""){
                 ongoingTasks.push(
                     <div className = "task-list-task" key = {x}>
                         <div className = "task-list-task-header">{task.name}</div>

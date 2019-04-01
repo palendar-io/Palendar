@@ -17,10 +17,11 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={LandingPage} />
           <Route path="/auth" component={AuthPage} />
-          <Route path="/dashboard" component={DashboardPage} />
-          <Route path="/schedule" component = {SchedulePage} />
-          <Route path="/events" component = {EventTaskPage} />
-          <Route path="/tasks" component = {TaskListPage} />
+          <Route path="/dashboard" component={DashboardPage}>
+            <Route path="/schedule" component = {SchedulePage} />
+            <Route path="/events" component = {EventTaskPage} />
+            <Route path="/tasks" component = {TaskListPage} />
+          </Route>
         </Switch>
       </BrowserRouter>
     );
