@@ -76,7 +76,7 @@ var data = {events};
            location
          };
          data.events.push(eventObject);
-         //console.log(eventObject);
+         console.log(eventObject);
        }
      }
 
@@ -90,6 +90,7 @@ var data = {events};
 
  };
 
- blogtoScraper()
- .then(res => console.log(res))
- .catch(err => console.log(err))
+export default blogtoScraper;
+//  blogtoScraper()
+//  .then(res => console.log(res))
+//  .catch(err => console.log(err))
