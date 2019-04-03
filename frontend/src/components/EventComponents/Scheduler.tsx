@@ -10,11 +10,14 @@ type MyProps = {userid: String};
 class Calendar extends React.Component<MyProps>{
     state = {
       currentMonth: new Date(),
-      selectedDate: new Date(),
-      modalIsOpen: false,
+      selectedDate: new Date(), 
     };
+
+    events: event [] = eventAPI.getEvents(this.props.userid);
     
-    events: event[] = eventAPI.getEvents(this.props.userid);
+    componentDidMount(){
+      let events: event[] = eventAPI.getEvents(this.props.userid);
+    }
 
     renderHeader() {
       const dateFormat = "MMMM YYYY";
@@ -75,8 +78,8 @@ class Calendar extends React.Component<MyProps>{
           let dayEvents: any[] = [];
           let x = 0;
           while(x < cloneEvents.length && dateFns.compareAsc(cloneEvents[x].date, cloneDay) <= 0){
-              if(dateFns.compareAsc(cloneEvents[x].date, day) === 0 && cloneEvents[x].name !== ""){
-                  let eventString = ` ${this.events[x].startTime} - ${this.events[x].endTime} ${this.events[x].name}`;
+              if(dateFns.compareAsc(cloneEvents[x].date, day) === 0 && cloneEvents[x].title !== ""){
+                  let eventString = ` ${dateFns.getHours(this.events[x].date)}:00 - ${dateFns.getHours(this.events[x].endTime)}:00 ${this.events[x].title}`;
                   dayEvents.push(<div className = "event" key = {x}>{eventString}</div>);
               } 
               x++;

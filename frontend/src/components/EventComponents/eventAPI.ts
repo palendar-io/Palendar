@@ -7,7 +7,7 @@ export function getEvents(userid: String){
             console.log(res);    
             return res;
         });
-    return [{id: "", name: "", date: new Date(), startTime: new Date(), endTime: new Date(), description: ""}];
+    return [{id: "", title: "", date: new Date(), startTime: new Date(), endTime: new Date(), location: "", description: ""}];
 }
 
 export function addEvent(event: object, userid: String){
@@ -23,4 +23,9 @@ export function deleteEvent(id: String, userid: String){
 export function updateEvent(id: String, event: object, userid: String){
     axios.put(`http://localhost:4000/events/${userid}/${id}`, event)
         .then(res => console.log(res));   
+}
+
+export function setMonth(month: number){
+    let date = new Date();
+    let date2 = date.setMonth(month);
 }

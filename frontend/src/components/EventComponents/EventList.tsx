@@ -1,5 +1,5 @@
 import React from "react";
-import dateFNS from "date-fns";
+import dateFns from "date-fns";
 import UIkit from "uikit";
 
 import "./EventList.css";
@@ -27,21 +27,21 @@ class EventList extends React.Component<MyProps>{
         let event: any[] = [];
         let dateFormat = "MMMM D YYYY"
         this.events.forEach(element => {
-            if(element.name !== ""){
+            if(element.title !== ""){
                 event.push(
                     <div className = "eventItem" key = {x}> 
                     <div className = "eventHeader">
-                        <span className = "eventName"><b>{element.name}</b></span>
+                        <span className = "eventName"><b>{element.title}</b></span>
                         <span className = "buttons">
                             <button>Edit</button>
                             <button onClick = {(event) => this.handleDelete(event,  element.id)}>Delete</button>
                         </span>
                     </div>
                     <div className = "eventTime">
-                        <span className = "startTime">{element.startTime} - </span>
-                        <span className = "endTime">{element.endTime}</span>
+                        <span className = "startTime">{dateFns.getHours(element.date)}:00 - </span>
+                        <span className = "endTime">{dateFns.getHours(element.endTime)}:00</span>
                     </div>
-                    <div className = "eventDate">{dateFNS.format(element.date, dateFormat)}</div>
+                    <div className = "eventDate">{dateFns.format(element.date, dateFormat)}</div>
                     <div className = "eventDescription">{element.description} </div>
                 </div>
                 )
