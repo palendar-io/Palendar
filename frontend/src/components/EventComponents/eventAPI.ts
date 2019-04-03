@@ -7,7 +7,16 @@ export function getEvents(userid: String){
             console.log(res);    
             return res;
         });
-    return [{id: "", title: "", date: new Date(), startTime: new Date(), endTime: new Date(), location: "", description: ""}];
+    return [{id: "", title: "", date: new Date(), endTime: new Date(), location: "", description: ""}];
+}
+
+export function getEvent(userid: String, id: String){
+    axios.get(`http://localhost:4000/events/${userid}/${id}`)
+        .then(res => {
+            console.log(res);
+            return res;
+        })
+    return {id: "", title: "", date: new Date(), endTime: new Date(), location: "", description: ""}
 }
 
 export function addEvent(event: object, userid: String){

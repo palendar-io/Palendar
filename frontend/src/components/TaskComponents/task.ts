@@ -1,6 +1,7 @@
 export default interface task{
+    id: String,
     name: String,
-    dueDate: Date,
+    date: Date,
     description: String,
     complete: boolean,
     failed:boolean,

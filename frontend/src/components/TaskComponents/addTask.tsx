@@ -1,85 +1,71 @@
 import React from "react";
-import dateFns, { getMonth } from "date-fns";
+import dateFns from "date-fns";
 
-import * as eventAPI from "./eventAPI";
-import event from "./event";
+import task from "./task";
+import * as taskAPI from "./taskAPI";
 
-type MyProp = {userid: String, id: String}
+type MyProps = {userid: String, id: String}
 
-export default class AddEvent extends React.Component<MyProp>{
+export default class AddTask extends React.Component<MyProps>{
     state = {
         currentDate: new Date(),
-        title: "",
+        name: "",
         date: new Date(),
-        endTime: new Date(),
-        location: "",
         description: "",
+        complete: false,
+        failed: false,
     }
 
     componentDidMount(){
         if(this.props.id){
-            let event = eventAPI.getEvent(this.props.userid, this.props.id)
-            this.setState({title: event.title});
-            this.setState({date: event.date});
-            this.setState({endTime: event.endTime});
-            this.setState({location: event.location});
-            this.setState({description: event.description});
+            let task = taskAPI.getTask(this.props.userid, this.props.id)
+            this.setState({name: task.name});
+            this.setState({date: task.date});
+            this.setState({description: task.description});
         }
     }
 
     handleSubmit = (event: React.FormEvent<HTMLInputElement>) => {
         event.preventDefault();
         if(this.props.id){
-            eventAPI.updateEvent(
+            taskAPI.updateTask(
                 this.props.id
-                , {title: this.state.title, date: this.state.date, endTime: this.state.endTime, description: this.state.description}
+                , {title: this.state.name, date: this.state.date, description: this.state.description}
                 , this.props.userid);
         }
         else{
-            eventAPI.addEvent(
-                {title: this.state.title, date: this.state.date, endTime: this.state.endTime, description: this.state.description}
+            taskAPI.addTask(
+                {title: this.state.name, date: this.state.date,  description: this.state.description}
                 , this.props.userid);
         }
     }
 
     handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({title: event.currentTarget.name})
+        this.setState({name: event.currentTarget.value});
     }
-
+    
     handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({description: event.currentTarget.name});
-    }
-
-    handleLocationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({location: event.currentTarget.name});
-    }
-
-    handleMonthChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        let month = Number(event.currentTarget.value) - 1;
-        this.setState({date: dateFns.setMonth(this.state.date, month)});
-        this.setState({endTime: dateFns.setMonth(this.state.endTime, month)})
+        this.setState({description: event.currentTarget.value});
     }
 
     handleDayChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         let day = Number(event.currentTarget.value);
         this.setState({date: dateFns.setDate(this.state.date, day)});
-        this.setState({endTime: dateFns.setDate(this.state.endTime, day)});
+    }
+
+    handleMonthChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        let month = Number(event.currentTarget.value) - 1;
+        this.setState({date: dateFns.setMonth(this.state.date, month)});
     }
 
     handleYearChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         let year = Number(event.currentTarget.value);
         this.setState({date: dateFns.setYear(this.state.date, year)})
-        this.setState({endTime: dateFns.setYear(this.state.endTime, year)})
     }
 
     handleStartHourChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         let hour = Number(event.currentTarget.value);
         this.setState({date: dateFns.setHours(this.state.date, hour)});
-    }
-
-    handleEndHourChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        let hour = Number(event.currentTarget.value);
-        this.setState({endTime: dateFns.setHours(this.state.endTime, hour)});
     }
 
     getMonthDays(){       
@@ -166,77 +152,38 @@ export default class AddEvent extends React.Component<MyProp>{
         )
     }
 
-    getEndHours(){
-        let hours = [];
-        let year = dateFns.getYear(this.state.date);
-        let month = dateFns.getMonth(this.state.date);
-        let day = dateFns.getDate(this.state.date);
-        if(year === dateFns.getYear(this.state.currentDate) && month === dateFns.getMonth(this.state.currentDate)
-            && day === dateFns.getDate(this.state.currentDate)){
-                let hour = dateFns.getHours(this.state.currentDate) + 1;
-                while(hour <= 24){
-                    hours.push(<option value = {hour} key = {hour}>{hour}:00</option>);
-                    hour++;
-                }
-        }
-        else{
-            let hour = dateFns.getHours(this.state.date) + 1;
-            while(hour < 24){
-                hours.push(<option value = {hour} key = {hour}>{hour}:00</option>);
-                hour++;
-            }
-        }
-        console.log(dateFns.getHours(this.state.endTime));
-        return(
-            <select name = "startYear" value = {dateFns.getHours(this.state.endTime)} onChange = {this.handleEndHourChange}>{hours}</select>
-        )
-    }
-
     renderHeader() {
         if(this.props.id){
             return(
                 <div className = "addEventHeader">
-                    Update Event
+                    Update Task
                 </div>
             )
         }
         return(
             <div className = "addEventHeader">
-                    Add Event
+                    Add Task
             </div>
         )
     }
 
-    render() {
+    render(){
         return(
-            <div className = "addEventMain">
+            <div className = "addTaskMain">
                 {this.renderHeader()}
-                <div className = "addEventForm">
-                    <form>
-                        <label>
-                            Event Name:
-                        </label>
-                        <input type = "text" value = {this.state.title} onChange = {this.handleNameChange} />
-                        <br />
-                        Year: {this.getYears()} Month: {this.getMonths()} Day: {this.getMonthDays()}
-                        <br />
-                        Start Time: {this.getStartHours()}
-                        <br />
-                        End Time: {this.getEndHours()}
-                        <br />
-                        <label>
-                            Location:
-                        </label>
-                        <input type = "text" value = {this.state.location} onChange = {this.handleLocationChange} />
-                        <br />
-                        <label>
-                            Description:
-                        </label>
-                        <input type = "text" value = {this.state.description} onChange = {this.handleDescriptionChange} />
-                        <br />
-                        <input type = "submit" value = "Submit" onSubmit = {this.handleSubmit} />
-                    </form>
-                </div>
+                <form>
+                    <label>
+                        Name:
+                    </label>
+                    <input type = "text" value = {this.state.name} onChange = {this.handleNameChange} />
+                    Year: {this.getYears()} Month: {this.getMonths()} Day: {this.getMonthDays()}
+                    Time Due: {this.getStartHours()}
+                    <label>
+                        Description:
+                    </label>
+                    <input type = "text" value = {this.state.description} onChange = {this.handleDescriptionChange} />
+                    <input type = "submit" value = "Submit" onSubmit = {this.handleSubmit} /> 
+                </form>
             </div>
         )
     }

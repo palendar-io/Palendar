@@ -29,7 +29,7 @@ class TaskList extends React.Component<MyProps>{
                     <div className = "task-list-task" key = {x}>
                         <div className = "task-list-task-header">{task.name}</div>
                         <div className = "task-list-task-date">
-                        Date Due: {task.dueDate.toLocaleDateString()} {dateFns.getHours(task.dueDate)}}
+                        Date Due: {task.date.toLocaleDateString()} {dateFns.getHours(task.date)}}
                         </div>
                         <div className = "task-list-task-description">Details: {task.description}</div>
                     </div>
@@ -52,7 +52,7 @@ class TaskList extends React.Component<MyProps>{
                     <div className = "task-list-task" key = {x}>
                         <div className = "task-list-task-header">{task.name}</div>
                         <div className = "task-list-task-date">
-                        Date Due: {task.dueDate.toLocaleDateString()} {dateFns.getHours(task.dueDate)}
+                        Date Due: {task.date.toLocaleDateString()} {dateFns.getHours(task.date)}
                         </div>
                         <div className = "task-list-task-description">Details: {task.description}</div>
                     </div>
@@ -75,13 +75,12 @@ class TaskList extends React.Component<MyProps>{
                     <div className = "task-list-task" key = {x}>
                         <div className = "task-list-task-header">{task.name}</div>
                         <div className = "task-list-task-date">
-                        Date Due: {task.dueDate.toLocaleDateString()} {dateFns.getHours(task.dueDate)}
+                        Date Due: {task.date.toLocaleDateString()} {dateFns.getHours(task.date)}
                         </div>
                         <div className = "task-list-task-description">Details: {task.description}</div>
                     </div>
                 )
                 x++;
-                console.log(task.dueDate);
             }
         })
 
