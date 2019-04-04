@@ -8,25 +8,28 @@ import EventTaskPage from "./pages/EventTaskPage";
 import TaskListPage from "./pages/TaskListPage";
 
 import UIkit from "uikit";
-
 import "./App.sass";
+
+import BlogtoEventList from './components/EventTaskPage/BlogtoEventList';
 
 class App extends Component {
   render() {
     return (
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/" component={LandingPage} />
-          <Route path="/auth" component={AuthPage} />
+      // <BrowserRouter>
+      //   <Switch>
+      //     <Route exact path="/" component={LandingPage} />
+      //     <Route path="/auth" component={AuthPage} />
 
-          <Route path="/dashboard" component={DashboardPage} >
-            <Route path="dashboard/schedule" component = {SchedulePage} />
-            <Route path="dashboard/events" component = {EventTaskPage} />
-            <Route path="dashboard/tasks" component = {TaskListPage} />
-          </Route>
+      //     <Route path="/dashboard" component={DashboardPage} >
+      //       <Route path="dashboard/schedule" component = {SchedulePage} />
+      //       <Route path="dashboard/events" component = {EventTaskPage} />
+      //       <Route path="dashboard/tasks" component = {TaskListPage} />
+      //     </Route>
           
-        </Switch>
-      </BrowserRouter>
+      //   </Switch>
+      // </BrowserRouter>
+      <BlogtoEventList/>
+
     );
   }
 }

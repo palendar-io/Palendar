@@ -1,5 +1,4 @@
 import * as  data from './blogtoEvents.json';
-// import blogtoScraper from './blogto-nextDayToJSON';
 import blogtoScraper from './blogto-nextDayToJSON';
 const express = require("express");
 const app = express();
