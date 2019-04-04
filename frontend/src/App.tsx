@@ -11,7 +11,6 @@ import AddEvent from "./components/EventComponents/AddEvent";
 import UIkit from "uikit";
 import "./App.sass";
 
-import BlogtoEventList from './components/EventTaskPage/BlogtoEventList';
 
 class App extends Component {
   render() {

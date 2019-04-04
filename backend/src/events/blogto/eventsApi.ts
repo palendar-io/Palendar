@@ -2,7 +2,9 @@ import * as  data from './blogtoEvents.json';
 import blogtoScraper from './blogto-nextDayToJSON';
 const express = require("express");
 const app = express();
-const port = 8080;
+const port = 8000;
+const category = 'events';
+const siteName = 'blogto';
 
 // define a route handler for the default home page
 app.get( "/", ( req, res ) => {
@@ -14,5 +16,5 @@ app.get( "/", ( req, res ) => {
 
 // start the Express server
 app.listen( port, () => {
-    console.log( `server started at http://localhost:${ port }` );
+    console.log( `server started at http://localhost:${port}` );
 } );

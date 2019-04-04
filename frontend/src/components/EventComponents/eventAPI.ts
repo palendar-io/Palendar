@@ -1,6 +1,7 @@
 import axios from "axios";
 import event from "./event";
 
+
 export function getEvents(userid: String){
     axios.get(`http://localhost:4000/events/${userid}`)
         .then(res => {
@@ -37,4 +38,16 @@ export function updateEvent(id: String, event: object, userid: String){
 export function setMonth(month: number){
     let date = new Date();
     let date2 = date.setMonth(month);
+}
+
+export default function getBlogtoEvents(){
+    axios.get(`http://localhost:8000`)
+        .then(res => {
+            console.log(res);    
+            return res;
+        })
+        .catch(err =>{
+            console.log(err);
+        });
+    return [{title: "", date: new Date(), endTime: new Date(), location: "", description: ""}];
 }
