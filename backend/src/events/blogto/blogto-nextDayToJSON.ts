@@ -10,12 +10,14 @@ let events: object[] = [];
 var data = {events};
 
  async function blogtoScraper() {
+
+    console.log('Blogto 2 weeks event scraping INITIALIZED');
    
      //If you want to see what is going on in real-time, set headless to false, otherwise, set to true
-     const browser = await puppeteer.launch({ headless: false });
+     const browser = await puppeteer.launch({ headless: true });
      const page = await browser.newPage();
      await page.goto("https://www.blogto.com/events/");
- 
+
      //Wait elements to load
      await page.waitForSelector("tbody tr td");
      await page.waitForSelector(".is-selected button");
@@ -60,6 +62,14 @@ var data = {events};
 
         const timeElement = await event.$(".event-info-box-date");
         const time = await page.evaluate(element => element.innerText, timeElement);
+        const startTime = time.split("–")[0].toLowerCase().trim();
+        let endTime = time.split("–")[1];
+        if (endTime === undefined) {
+          endTime = '11:59pm'
+        } else {
+          endTime = endTime.toLowerCase().trim();
+        }
+
 
         const locationElement = await event.$(".event-info-box-venue");
         const location = await page.evaluate(element =>  element.innerText, locationElement);
@@ -72,17 +82,18 @@ var data = {events};
            day,
            title,
            description,
-           time,
+           startTime,
+           endTime,
            location
          };
          data.events.push(eventObject);
-         console.log(eventObject);
+         //console.log(eventObject);
        }
      }
 
      return new Promise((resolve, reject)=>{
       fs.writeFile ("blogtoEvents.json", JSON.stringify(data), function(err) {
-          resolve('Blogto 2 weeks event scraping complete');
+          resolve('Blogto 2 weeks event scraping COMPLETE');
           if(err) reject(err);
         })
      })
