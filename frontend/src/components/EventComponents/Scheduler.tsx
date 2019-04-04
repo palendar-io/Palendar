@@ -2,28 +2,23 @@ import React from "react";
 import dateFns from "date-fns";
 
 import "./Scheduler.css";
+import * as eventAPI from "./eventAPI";
+import event from "./event";
 
-class Calendar extends React.Component {
+type MyProps = {userid: String};
+
+class Calendar extends React.Component<MyProps>{
     state = {
-        currentMonth: new Date(),
-        selectedDate: new Date(),
-        modalIsOpen: false,
+      currentMonth: new Date(),
+      selectedDate: new Date(), 
     };
-  
-    events = [{name: "Grocery", startTime: "8:00pm", endTime: "9:00pm", date: new Date(2019, 1, 10), description: "Shopping List"},
-      {name: "Gym Workout", startTime: "11:00pm", endTime: "12:00pm", date: new Date(2019, 1, 22), description: "Yoga with Carol"},
-      {name: "Dinner with Iris van Herpen", startTime: "6:00pm", endTime: "7:00pm", date: new Date(2019, 1, 15), description: "Getting inspiration from one of the most avant garde designers of this generatino"},
-      {name: "Lunch with Guo Pei", startTime: "12:00pm", endTime: "1:00pm", date: new Date(2019, 2, 15), description: "Dinner with Chinese pride desu"},
-      {name: "Lunch with Guo Pei", startTime: "12:00pm", endTime: "1:00pm", date: new Date(2019, 2, 20), description: "Dinner with Chinese pride desu"}];
-  
-    showModal = () => {
-      this.setState({modalIsOpen : true});
-    } 
-  
-    closeModal = () => {
-      this.setState({modalIsOpen : false});
+
+    events: event [] = eventAPI.getEvents(this.props.userid);
+    
+    componentDidMount(){
+      let events: event[] = eventAPI.getEvents(this.props.userid);
     }
-  
+
     renderHeader() {
       const dateFormat = "MMMM YYYY";
   
@@ -80,11 +75,11 @@ class Calendar extends React.Component {
         for (let i = 0; i < 7; i++) {
           formattedDate = dateFns.format(day, dateFormat);
           const cloneDay = day;
-          let dayEvents = [];
+          let dayEvents: any[] = [];
           let x = 0;
           while(x < cloneEvents.length && dateFns.compareAsc(cloneEvents[x].date, cloneDay) <= 0){
-              if(dateFns.compareAsc(cloneEvents[x].date, day) === 0){
-                  let eventString = ` ${this.events[x].startTime} - ${this.events[x].endTime} ${this.events[x].name}`;
+              if(dateFns.compareAsc(cloneEvents[x].date, day) === 0 && cloneEvents[x].title !== ""){
+                  let eventString = ` ${dateFns.getHours(this.events[x].date)}:00 - ${dateFns.getHours(this.events[x].endTime)}:00 ${this.events[x].title}`;
                   dayEvents.push(<div className = "event" key = {x}>{eventString}</div>);
               } 
               x++;
