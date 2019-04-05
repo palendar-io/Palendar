@@ -1,15 +1,18 @@
 import React from "react";
 import dateFns from "date-fns";
+import Modal from "react-modal";
 
 import task from "./task";
-import * as taskAPI from "./taskAPI"
+import * as taskAPI from "./taskAPI";
+import AddTask from "./addTask";
 
 type MyProps = {userid: String};
 
 class TaskList extends React.Component<MyProps>{
     state = {
         tasksCompleted: 0,
-        tasksFailed: 0
+        tasksFailed: 0,
+        modalIsOpen: false
     }
 
     /*tasks = [{name: "Groceries", dueDate: new Date(2019, 3, 24), dueTime: new Date(17, 30), description: "Grocery list: eggs, milk, bread, chips",complete: false, failed: true},
@@ -19,6 +22,19 @@ class TaskList extends React.Component<MyProps>{
     ]*/
 
     tasks : task[] = taskAPI.getTasks(this.props.userid);
+
+    openModal = () => {
+        this.setState({modalIsOpen: true});
+    }
+
+    closeModal = () => {
+        this.setState({modalIsOpen: false});
+    }
+
+    handleDelete(event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: String){
+        event.preventDefault();
+        taskAPI.deleteTask(id, this.props.userid);
+    }
 
     renderComplete(){
         let completeTasks: any[] = [];
@@ -74,6 +90,17 @@ class TaskList extends React.Component<MyProps>{
                 ongoingTasks.push(
                     <div className = "task-list-task" key = {x}>
                         <div className = "task-list-task-header">{task.name}</div>
+                        <div className = "task-list-buttons">
+                            <button>Complete</button>
+                            <button onClick = {this.openModal}>Edit</button>
+                            <Modal
+                                isOpen={this.state.modalIsOpen}
+                                onRequestClose = {this.closeModal}
+                                contentLabel = "Event">
+                                <AddTask userid = "" id = ""/>
+                            </Modal>
+                            <button onClick = {(event) => this.handleDelete(event,  task.id)}>Delete</button>
+                        </div>
                         <div className = "task-list-task-date">
                         Date Due: {task.date.toLocaleDateString()} {dateFns.getHours(task.date)}
                         </div>
@@ -92,6 +119,16 @@ class TaskList extends React.Component<MyProps>{
     render(){
         return(
             <div className = "task-list-tasks">
+                <div className = "task-list-header">
+                <span>Task List</span>
+                <button onClick = {this.openModal}>Open</button>
+                    <Modal
+                        isOpen={this.state.modalIsOpen}
+                        onRequestClose = {this.closeModal}
+                        contentLabel = "Event">
+                        <AddTask userid = "" id = ""/>
+                    </Modal>
+                </div>
                 <div className = "task-list-main">{this.renderOngoing()}</div>
                 <div className = "task-list-side">{this.renderComplete()} {this.renderFailed()}</div>
             </div>

@@ -1,23 +1,47 @@
 import React from "react";
 import dateFns from "date-fns";
-import UIkit from "uikit";
+import Modal from "react-modal";
 
 import "./EventList.css";
 import * as eventAPI from "./eventAPI";
 import event from "./event";
+import AddEvent from "./AddEvent";
 
 type MyProps = {userid: String}
 
 class EventList extends React.Component<MyProps>{
-    /*events = [{name: "Grocery", startTime: "8:00pm", endTime: "9:00pm", date: new Date(2019, 1, 10), description: "Shopping List"},
-    {name: "Gym Workout", startTime: "11:00pm", endTime: "12:00pm", date: new Date(2019, 1, 22), description: "Yoga with Carol"},
-    {name: "Dinner with Iris van Herpen", startTime: "6:00pm", endTime: "7:00pm", date: new Date(2019, 1, 15), description: "Getting inspiration from one of the most avant garde designers of this generatino"},
-    {name: "Lunch with Guo Pei", startTime: "12:00pm", endTime: "1:00pm", date: new Date(2019, 2, 15), description: "Dinner with Chinese pride desu"},
-    {name: "Lunch with Guo Pei", startTime: "12:00pm", endTime: "1:00pm", date: new Date(2019, 2, 20), description: "Dinner with Chinese pride desu"}];*/
+    /*events = [{id: "123", title: "Grocery", endTime: "9:00pm", date: new Date(2019, 1, 10), description: "Shopping List"},
+    {id: "234", title: "Gym Workout", endTime: "12:00pm", date: new Date(2019, 1, 22), description: "Yoga with Carol"},
+    {id: "345", title: "Dinner with Iris van Herpen", endTime: "7:00pm", date: new Date(2019, 1, 15), description: "Getting inspiration from one of the most avant garde designers of this generatino"},
+    {id: "345", title: "Lunch with Guo Pei", endTime: "1:00pm", date: new Date(2019, 2, 15), description: "Dinner with Chinese pride desu"},
+    {id: "456", title: "Lunch with Guo Pei", endTime: "1:00pm", date: new Date(2019, 2, 20), description: "Dinner with Chinese pride desu"}];
+    */
+    state = {
+        modalIsOpen: false,
+    }
+
+    customStyles = {
+        content : {
+          top                   : '50%',
+          left                  : '50%',
+          right                 : 'auto',
+          bottom                : 'auto',
+          marginRight           : '-50%',
+          transform             : 'translate(-50%, -50%)'
+        }
+      };
 
     events: event[] = eventAPI.getEvents(this.props.userid);
 
-    handleDelete(event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: String){
+    openModal = () => {
+        this.setState({modalIsOpen: true});
+    }
+
+    closeModal = () => {
+        this.setState({modalIsOpen: false});
+    }
+
+    handleDelete = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: String) => {
         event.preventDefault();
         eventAPI.deleteEvent(id, this.props.userid);
     }
@@ -33,7 +57,15 @@ class EventList extends React.Component<MyProps>{
                     <div className = "eventHeader">
                         <span className = "eventName"><b>{element.title}</b></span>
                         <span className = "buttons">
-                            <button>Edit</button>
+                            <button onClick = {this.openModal}>Edit</button>
+                            <Modal
+                                isOpen={this.state.modalIsOpen}
+                                onRequestClose = {this.closeModal}
+                                style = {this.customStyles}
+                                contentLabel = "Event">
+                                <AddEvent userid = "" id = ""/>
+
+                            </Modal>
                             <button onClick = {(event) => this.handleDelete(event,  element.id)}>Delete</button>
                         </span>
                     </div>
@@ -60,7 +92,13 @@ class EventList extends React.Component<MyProps>{
                 <div className = "eventList-header">
                     <span><b>Event List</b></span>
                     <span className = "buttons">
-                        <button uk-toggle="target: #modal-example">Open</button>
+                        <button onClick = {this.openModal}>Add Event</button>
+                        <Modal
+                            isOpen={this.state.modalIsOpen}
+                            onRequestClose = {this.closeModal}
+                            contentLabel = "Event">
+                            <AddEvent userid = "" id = ""/>
+                        </Modal>
                     </span>
                 </div>
                 {this.renderList()}

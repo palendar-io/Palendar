@@ -2,7 +2,6 @@ import React from "react";
 import dateFns, { getMonth } from "date-fns";
 
 import * as eventAPI from "./eventAPI";
-import event from "./event";
 
 type MyProp = {userid: String, id: String}
 
