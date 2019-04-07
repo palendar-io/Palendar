@@ -7,6 +7,7 @@ import SchedulePage from "./pages/SchedulePage";
 import EventTaskPage from "./pages/EventTaskPage";
 import TaskListPage from "./pages/TaskListPage";
 import AddEvent from "./components/EventComponents/AddEvent";
+import BlogtoEventList from './components/EventComponents/BlogtoEventList'
 
 import UIkit from "uikit";
 import "./App.sass";
@@ -15,6 +16,7 @@ import "./App.sass";
 class App extends Component {
   render() {
     return (
+ 
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={LandingPage} />

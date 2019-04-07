@@ -41,7 +41,7 @@ export function setMonth(month: number){
 }
 
 export default function getBlogtoEvents(){
-    axios.get(`http://localhost:8000`)
+    axios.get(`http://localhost:4000/blogto`)
         .then(res => {
             console.log(res);    
             return res;
