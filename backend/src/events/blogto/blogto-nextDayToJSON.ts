@@ -6,12 +6,13 @@ import puppeteer from 'puppeteer';
 import * as fs from 'fs';
 
 
+
 let events: object[] = [];
 var data = {events};
 
  async function blogtoScraper() {
 
-    console.log('Blogto 2 weeks event scraping INITIALIZED');
+    console.log('--EVENT----- \n\tTTILE: Blogto 2 weeks event scraping \n\tSTATUS: initialized');
    
      //If you want to see what is going on in real-time, set headless to false, otherwise, set to true
      const browser = await puppeteer.launch({ headless: true });
@@ -67,17 +68,17 @@ var data = {events};
         const location = await page.evaluate(element =>  element.innerText, locationElement);
 
         //start time- named as 'date' in event object
-        const startString = time.split("–")[0].trim()
-        const startAmpm = (startString.split(" ")[1]== "PM")?12:0;
-        const startHour = Number(startString.split(" ")[0].split(":")[0])%12 + startAmpm;
-        const startMinutes = Number(startString.split(" ")[0].split(":")[1]);
+        const startString = time.split('–')[0].trim()
+        const startAmpm = (startString.split(' ')[1]== 'PM')?12:0;
+        const startHour = Number(startString.split(' ')[0].split(':')[0])%12 + startAmpm;
+        const startMinutes = Number(startString.split(' ')[0].split(':')[1]);
         const date = new Date(year, month, day, startHour, startMinutes);
 
         //endtime- creates one if doesn't exist
-        const endString = (time.split("–")[1] === undefined)?'11:59 PM':time.split("–")[1].trim();
-        const endAmpm = (endString.split(" ")[1]== "PM")?12:0;
-        const endHour = Number(endString.split(" ")[0].split(":")[0])%12 + endAmpm;
-        const endMinutes = Number(endString.split(" ")[0].split(":")[1]);
+        const endString = (time.split('–')[1] === undefined)?'11:59 PM':time.split('–')[1].trim();
+        const endAmpm = (endString.split(' ')[1]== 'PM')?12:0;
+        const endHour = Number(endString.split(' ')[0].split(':')[0])%12 + endAmpm;
+        const endMinutes = Number(endString.split(' ')[0].split(':')[1]);
         const endTime = new Date(year, month, day, endHour, endMinutes)
 
          //create event object
@@ -89,13 +90,24 @@ var data = {events};
            description
          };
          data.events.push(eventObject);
-         //console.log(eventObject);
        }
+
      }
+     console.log('\tNUMBER OF BLOGTO EVENTS: ' + events.length);
+
+     //Adds events to JSON file
+     const filePath = 'blogtoEvents.json';
+
+     if(fs.existsSync(filePath)){
+      fs.unlink(filePath, function(err){
+        if (err) {
+          return console.log(err);
+       }
+     })};
 
      return new Promise((resolve, reject)=>{
-      fs.writeFile ('blogtoEvents.json', JSON.stringify(data), function(err) {
-          resolve('Blogto 2 weeks event scraping COMPLETE');
+      fs.writeFile (filePath, JSON.stringify(data), function(err) {
+          resolve('--EVENT----- \n\tTTILE: Blogto 2 weeks event scraping \n\tSTATUS: complete');
           if(err) reject(err);
         })
      })
