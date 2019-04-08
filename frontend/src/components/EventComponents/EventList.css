@@ -42,10 +42,15 @@
       
   }
 
-  .blogtoEventItem{
-    padding-bottom: 25px;
+  .blogtoEventHeader{
+    margin-top: 10%;
+    margin-left:10%;
+    margin-right: 5%;
+    margin-bottom: 5%;
   }
 
-  .eventList {
-    margin-top: 25%;
+  .blogtoEventItem{
+    padding-bottom: 25px;
+    margin-left:10%;
+    margin-right: 5%;
   }

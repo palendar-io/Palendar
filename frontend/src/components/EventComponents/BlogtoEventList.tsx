@@ -81,13 +81,12 @@ export default class BlogtoEventList extends React.Component{
                 
  
                 <ul>
-                    <h1>Events today</h1>
+                    <h1 className ="blogtoEventHeader">Events Near You</h1>
                     {todayEvents.map(event =>           
                         <div className = "blogtoEventItem">
                             <div className = "eventHeader">
                                 <span className = "eventName"><b>{event.title}</b></span>
                                 <span className = "buttons">
-                                    <button>Add to Calendar</button>
                                 </span>
                             </div>
                             <div className = "eventTime">

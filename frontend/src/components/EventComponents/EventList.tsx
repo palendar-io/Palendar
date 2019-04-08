@@ -82,7 +82,7 @@ class EventList extends React.Component<MyProps>{
         this.state.events.forEach(element => {
             if(element.title !== ""){
                 event.push(
-                    <div className = "eventItem" key = {x}> 
+                    <div className = "eventItem uk-card" key = {x}> 
                     <div className = "eventHeader">
                         <span className = "eventName"><b>{element.title}</b></span>
                         <span className = "buttons">

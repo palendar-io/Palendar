@@ -78,18 +78,6 @@ export default class SideMenu extends Component {
               <li className="uk-nav-header">ACTIONS</li>
 
               <li>
-                <NavLink to="/dashboard/home">
-                  <a href="#">
-                    <span
-                      data-uk-icon="icon: home"
-                      className="uk-margin-small-right"
-                    />
-                    Home
-                  </a>
-                </NavLink>
-              </li>
-
-              <li>
                 <NavLink to="/dashboard/calendar">
                   <a href="#">
                     <span
@@ -100,7 +88,7 @@ export default class SideMenu extends Component {
                   </a>
                 </NavLink>
               </li>
-              <li className="uk-parent">
+              <li>
                 <NavLink to="/dashboard/messages">
                   <a href="#">
                     <span
@@ -110,67 +98,29 @@ export default class SideMenu extends Component {
                     Messages
                   </a>
                 </NavLink>
-                <ul className="uk-nav-sub">
-                  <li>
-                    <a
-                      title="Article"
-                      href="https://zzseba78.github.io/Kick-Off/article.html"
-                    >
-                      Friends
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      title="Album"
-                      href="https://zzseba78.github.io/Kick-Off/album.html"
-                    >
-                      Family
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      title="Cover"
-                      href="https://zzseba78.github.io/Kick-Off/cover.html"
-                    >
-                      Work
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      title="Cards"
-                      href="https://zzseba78.github.io/Kick-Off/cards.html"
-                    >
-                      Ted Rogers
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      title="News Blog"
-                      href="https://zzseba78.github.io/Kick-Off/newsBlog.html"
-                    >
-                      Alexandar Bell
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      title="Price"
-                      href="https://zzseba78.github.io/Kick-Off/price.html"
-                    >
-                      Harry Telus
-                    </a>
-                  </li>
-                </ul>
+                
               </li>
               <li>
-                <Link to="events">
+                <NavLink to="tasks">
                   <a href="#">
                     <span
                       data-uk-icon="icon: list"
                       className="uk-margin-small-right"
                     />
-                    Tasks & Events
+                    Tasks
                   </a>
-                </Link>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="events">
+                  <a href="#">
+                    <span
+                      data-uk-icon="icon: star"
+                      className="uk-margin-small-right"
+                    />
+                    Events
+                  </a>
+                </NavLink>
               </li>
               <li>
                 <a href="#">

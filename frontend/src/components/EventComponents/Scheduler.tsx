@@ -23,7 +23,6 @@ class Calendar extends React.Component<MyProps>{
           this.state.events.sort((a: event, b:event) => {
             return a.date.valueOf() - b.date.valueOf();
           });
-          console.log(this.state.events);
       })
       taskAPI.getTasks(this.props.userid)
         .then(res => {
@@ -84,20 +83,28 @@ class Calendar extends React.Component<MyProps>{
       let day = startDate;
       let formattedDate = "";
       let cloneEvents = this.state.events;
+      let cloneTasks = this.state.tasks;
   
       while (day <= endDate) {
         for (let i = 0; i < 7; i++) {
           formattedDate = dateFns.format(day, dateFormat);
           const cloneDay = day;
           let dayEvents = [];
+          let dayTasks = [];
           let x = 0;
-          while(x < cloneEvents.length && dateFns.compareAsc(cloneEvents[x].date, cloneDay) <= 0){
-              if(dateFns.compareAsc(cloneEvents[x].date, day) === 0){
-                  let eventString = `${this.state.events[x].title} ${this.state.events[x].date} ${this.state.events[x].endTime}`;
-                  dayEvents.push(<div className = "event" key = {x}>{eventString}</div>);
-                  //{this.renderModal(this.events[x].name, this.events[x].startTime, this.events[x].endTime, this.events[x].date, this.events[x].description)};
-              }
-              x++;
+          while(x < cloneEvents.length){
+            if(cloneEvents[x].title !== "" && dateFns.isSameDay(cloneEvents[x].date, cloneDay)){
+                let eventString = ` ${dateFns.getHours(this.state.events[x].date)}:00 - ${dateFns.getHours(this.state.events[x].endTime)}:00 ${this.state.events[x].title}`;
+                dayEvents.push(<div className = "event" key = {x}>{eventString}</div>);
+            }
+            x++;
+          }
+          while(x < cloneTasks.length){
+            if(cloneTasks[x].title !== "" && dateFns.isSameDay(cloneTasks[x].date, cloneDay)){
+                let eventString = ` ${dateFns.getHours(this.state.tasks[x].date)}:00 ${this.state.tasks[x].title}`;
+                dayTasks.push(<div className = "task" key = {x}>{eventString}</div>);
+            }
+            x++;
           }
           days.push(
             <div
@@ -111,6 +118,7 @@ class Calendar extends React.Component<MyProps>{
               <span className = "number">{formattedDate}</span>
               <span className = "bg">{formattedDate}</span>
               <span className = "events">{dayEvents}</span>
+              <span className = "tasks">{dayTasks}</span>
             </div>
           );
           day = dateFns.addDays(day, 1);
