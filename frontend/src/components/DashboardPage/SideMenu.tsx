@@ -77,7 +77,7 @@ export default class SideMenu extends Component {
             >
               <li className="uk-nav-header">ACTIONS</li>
 
-              <li>
+              {/* <li>
                 <NavLink to="/dashboard/home">
                   <a href="#">
                     <span
@@ -87,7 +87,7 @@ export default class SideMenu extends Component {
                     Home
                   </a>
                 </NavLink>
-              </li>
+              </li> */}
 
               <li>
                 <NavLink to="/dashboard/calendar">

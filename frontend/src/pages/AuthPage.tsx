@@ -66,7 +66,7 @@ export default class AuthPage extends Component {
                     </div>
                   </div>
                   <div className="uk-text-center uk-margin">
-                    <NavLink to="/dashboard">
+                    <NavLink to="/dashboard/calendar">
                       <button className="uk-button uk-button-primary ">
                         Submit
                       </button>
