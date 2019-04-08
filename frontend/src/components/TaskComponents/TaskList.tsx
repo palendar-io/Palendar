@@ -99,7 +99,7 @@ class TaskList extends React.Component<MyProps>{
                                 contentLabel = "Event">
                                 <AddTask userid = "" id = ""/>
                             </Modal>
-                            <button onClick = {(event) => this.handleDelete(event,  task.id)}>Delete</button>
+                            <button onClick = {(event) => this.handleDelete(event,  task._id)}>Delete</button>
                         </div>
                         <div className = "task-list-task-date">
                         Date Due: {task.date.toLocaleDateString()} {dateFns.getHours(task.date)}

@@ -14,6 +14,7 @@ export default class AddTask extends React.Component<MyProps>{
         description: "",
         complete: false,
         failed: false,
+        userid: this.props.userid
     }
 
     componentDidMount(){
@@ -30,12 +31,12 @@ export default class AddTask extends React.Component<MyProps>{
         if(this.props.id){
             taskAPI.updateTask(
                 this.props.id
-                , {title: this.state.name, date: this.state.date, description: this.state.description}
+                , {title: this.state.name, date: this.state.date, description: this.state.description, userid: this.props.userid}
                 , this.props.userid);
         }
         else{
             taskAPI.addTask(
-                {title: this.state.name, date: this.state.date,  description: this.state.description}
+                {title: this.state.name, date: this.state.date,  description: this.state.description, userid: this.props.userid}
                 , this.props.userid);
         }
     }

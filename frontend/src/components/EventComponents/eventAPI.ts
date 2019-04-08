@@ -1,37 +1,27 @@
-import axios from "axios";
+import axios, {AxiosPromise} from "axios";
 import event from "./event";
 
 
 export function getEvents(userid: String){
-    axios.get(`http://localhost:4000/events/${userid}`)
-        .then(res => {
-            console.log(res);    
-            return res;
-        });
-    return [{id: "", title: "", date: new Date(), endTime: new Date(), location: "", description: ""}];
+    return axios.get<event[]>(`http://localhost:4000/api/events/${userid}`);
 }
 
 export function getEvent(userid: String, id: String){
-    axios.get(`http://localhost:4000/events/${userid}/${id}`)
-        .then(res => {
-            console.log(res);
-            return res;
-        })
-    return {id: "", title: "", date: new Date(), endTime: new Date(), location: "", description: ""}
+    return axios.get(`http://localhost:4000/api/events/${userid}/${id}`)
 }
 
 export function addEvent(event: object, userid: String){
-    axios.post(`http://localhost:4000/events/${userid}`, event)
+    axios.post(`http://localhost:4000/api/events/`, event)
         .then(res => console.log(res));
 }
 
 export function deleteEvent(id: String, userid: String){
-    axios.delete(`http://localhost:4000/events/${userid}/${id}`)
+    axios.delete(`http://localhost:4000/api/events/${userid}/${id}`)
         .then(res => console.log(res)); 
 }
 
 export function updateEvent(id: String, event: object, userid: String){
-    axios.put(`http://localhost:4000/events/${userid}/${id}`, event)
+    axios.put(`http://localhost:4000/api/events/${userid}/${id}`, event)
         .then(res => console.log(res));   
 }
 

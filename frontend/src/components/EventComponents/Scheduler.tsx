@@ -3,7 +3,9 @@ import dateFns from "date-fns";
 
 import "./Scheduler.css";
 import * as eventAPI from "./eventAPI";
+import * as taskAPI from "../TaskComponents/taskAPI";
 import event from "./event";
+import task from "../TaskComponents/task";
 
 type MyProps = {userid: String};
 
@@ -13,10 +15,22 @@ class Calendar extends React.Component<MyProps>{
       selectedDate: new Date(), 
     };
 
-    events: event [] = eventAPI.getEvents(this.props.userid);
+    events: event [] = []
+    tasks: task [] = []
     
     componentDidMount(){
-      let events: event[] = eventAPI.getEvents(this.props.userid);
+      eventAPI.getEvents("")
+        .then(res => {
+            console.log(res);
+            this.events = res.data;
+        })
+      this.tasks = taskAPI.getTasks(this.props.userid);
+      this.events.sort((a: event, b:event) => {
+        return a.date.valueOf() - b.date.valueOf();
+      });
+      this.tasks.sort((a: task, b: task) => {
+        return a.date.valueOf() - b.date.valueOf();
+      });
     }
 
     renderHeader() {
@@ -70,6 +84,7 @@ class Calendar extends React.Component<MyProps>{
       let dayKey = day.toString();
       let formattedDate = "";
       let cloneEvents = this.events;
+      let cloneTasks = this.tasks;
   
       while (day <= endDate) {
         for (let i = 0; i < 7; i++) {

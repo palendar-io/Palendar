@@ -1,8 +1,9 @@
 export default interface event{
-    id: String
+    _id: String,
     title: String,
     date: Date,
     endTime: Date,
     location: String,
     description: String,
+    userid: String,
 }

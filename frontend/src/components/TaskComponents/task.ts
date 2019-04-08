@@ -1,8 +1,9 @@
 export default interface task{
-    id: String,
+    _id: String,
     name: String,
     date: Date,
     description: String,
-    complete: boolean,
-    failed:boolean,
+    complete: Boolean,
+    failed: Boolean,
+    userid: String,
 }
