@@ -1,6 +1,7 @@
 import React from "react";
 import dateFns from "date-fns";
 import Modal from "react-modal";
+import axios from "axios";
 
 import "./EventList.css";
 import * as eventAPI from "./eventAPI";
@@ -17,7 +18,9 @@ class EventList extends React.Component<MyProps>{
     {id: "456", title: "Lunch with Guo Pei", endTime: "1:00pm", date: new Date(2019, 2, 20), description: "Dinner with Chinese pride desu"}];
     */
     state = {
-        modalIsOpen: false,
+        addModalIsOpen: false,
+        editModalIsOpen: false,
+        events: [{_id: "", title: "", date: new Date(), endTime: new Date(), location: "", description: "", userid: ""}],
     }
 
     customStyles = {
@@ -29,44 +32,72 @@ class EventList extends React.Component<MyProps>{
           marginRight           : '-50%',
           transform             : 'translate(-50%, -50%)'
         }
-      };
+    };
 
-    events: event[] = eventAPI.getEvents(this.props.userid);
-
-    openModal = () => {
-        this.setState({modalIsOpen: true});
+    componentDidMount(){
+        Modal.setAppElement('body');
+        eventAPI.getEvents("")
+            .then(res => {
+                this.setState({events: res.data[0]});
+            })
     }
 
-    closeModal = () => {
-        this.setState({modalIsOpen: false});
+    openAddModal = () => {
+        this.setState({addModalIsOpen: true});
+    }
+
+    closeAddModal = () => {
+        this.setState({addModalIsOpen: false});
+        eventAPI.getEvents("")
+        .then(res => {
+            this.setState({events: res.data[0]});
+        })
+    }
+
+    openEditModal = () => {
+        this.setState({editModalIsOpen: true});
+    }
+
+    closeEditModal = () => {
+        this.setState({editModalIsOpen: false});
+        eventAPI.getEvents("")
+        .then(res => {
+            this.setState({events: res.data[0]});
+        })
     }
 
     handleDelete = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: String) => {
         event.preventDefault();
         eventAPI.deleteEvent(id, this.props.userid);
+        eventAPI.getEvents("")
+        .then(res => {
+            this.setState({events: res.data[0]});
+        })  
     }
 
     renderList(){
         let x = 0;
         let event: any[] = [];
         let dateFormat = "MMMM D YYYY"
-        this.events.forEach(element => {
+        this.state.events.forEach(element => {
             if(element.title !== ""){
+                console.log(element)
                 event.push(
                     <div className = "eventItem" key = {x}> 
                     <div className = "eventHeader">
                         <span className = "eventName"><b>{element.title}</b></span>
                         <span className = "buttons">
-                            <button onClick = {this.openModal}>Edit</button>
+                            <button onClick = {this.openEditModal}>Edit</button>
                             <Modal
-                                isOpen={this.state.modalIsOpen}
-                                onRequestClose = {this.closeModal}
+                                isOpen={this.state.editModalIsOpen}
+                                onRequestClose = {this.closeEditModal}
                                 style = {this.customStyles}
-                                contentLabel = "Event">
-                                <AddEvent userid = "" id = ""/>
+                                contentLabel = "Edit Event">
+                                <AddEvent userid = "" id = {element._id} action = {false} />
+                                <button onClick = {this.closeEditModal}>Close</button>
 
                             </Modal>
-                            <button onClick = {(event) => this.handleDelete(event,  element.id)}>Delete</button>
+                            <button onClick = {(event) => this.handleDelete(event,  element._id)}>Delete</button>
                         </span>
                     </div>
                     <div className = "eventTime">
@@ -74,6 +105,7 @@ class EventList extends React.Component<MyProps>{
                         <span className = "endTime">{dateFns.getHours(element.endTime)}:00</span>
                     </div>
                     <div className = "eventDate">{dateFns.format(element.date, dateFormat)}</div>
+                    <div className = "eventLocation">{element.location}</div>
                     <div className = "eventDescription">{element.description} </div>
                 </div>
                 )
@@ -92,12 +124,14 @@ class EventList extends React.Component<MyProps>{
                 <div className = "eventList-header">
                     <span><b>Event List</b></span>
                     <span className = "buttons">
-                        <button onClick = {this.openModal}>Add Event</button>
+                        <button onClick = {this.openAddModal}>Add Event</button>
                         <Modal
-                            isOpen={this.state.modalIsOpen}
-                            onRequestClose = {this.closeModal}
-                            contentLabel = "Event">
-                            <AddEvent userid = "" id = ""/>
+                            isOpen={this.state.addModalIsOpen}
+                            onRequestClose = {this.closeAddModal}
+                            style = {this.customStyles}
+                            contentLabel = "Add Event">
+                            <AddEvent userid = "" id = "" action = {true} />
+                            <button onClick = {this.closeAddModal}>Close</button>
                         </Modal>
                     </span>
                 </div>

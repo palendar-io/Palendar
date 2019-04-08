@@ -26,6 +26,8 @@ class App extends Component {
             <Route path="dashboard/events" component = {EventTaskPage} />
             <Route path="dashboard/tasks" component = {TaskListPage} />
           </Route>
+
+          <Route path = "/events" component = {EventTaskPage} />
           
         </Switch>
       </BrowserRouter>

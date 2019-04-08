@@ -1,11 +1,12 @@
 import React from "react";
 import dateFns, { getMonth } from "date-fns";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import * as eventAPI from "./eventAPI";
 
-type MyProp = {userid: String, id: String}
+type MyProps = {userid: String, id: String, action: Boolean}
 
-export default class AddEvent extends React.Component<MyProp>{
+export default class AddEvent extends React.Component<MyProps>{
     state = {
         currentDate: new Date(),
         title: "",
@@ -13,44 +14,53 @@ export default class AddEvent extends React.Component<MyProp>{
         endTime: new Date(),
         location: "",
         description: "",
+        userid: this.props.userid,
     }
 
     componentDidMount(){
         if(this.props.id){
-            let event = eventAPI.getEvent(this.props.userid, this.props.id)
-            this.setState({title: event.title});
-            this.setState({date: event.date});
-            this.setState({endTime: event.endTime});
-            this.setState({location: event.location});
-            this.setState({description: event.description});
+            eventAPI.getEvent("", this.props.id)
+                .then(res => {
+                    let event = res.data[0]
+                    this.setState({title: event.title});
+                    this.setState({date: event.date});
+                    this.setState({endTime: event.endTime});
+                    this.setState({location: event.location});
+                    this.setState({description: event.description});
+                })
+            console.log("Hi");
         }
+        this.setState({endDate: dateFns.addHours(this.state.date, 1)});
     }
 
-    handleSubmit = (event: React.FormEvent<HTMLInputElement>) => {
+    handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
-        if(this.props.id){
+        let addEvent = {title: this.state.title, date: this.state.date, endTime: this.state.endTime, description: this.state.description,location: this.state.location, userid: this.props.userid};
+        if(this.props.id !== ""){
             eventAPI.updateEvent(
                 this.props.id
-                , {title: this.state.title, date: this.state.date, endTime: this.state.endTime, description: this.state.description}
+                , addEvent
                 , this.props.userid);
+            console.log("dohohow")
         }
         else{
             eventAPI.addEvent(
-                {title: this.state.title, date: this.state.date, endTime: this.state.endTime, description: this.state.description}
+                addEvent
                 , this.props.userid);
+            console.log(addEvent);
         }
     }
 
     handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({title: event.currentTarget.name})
+        this.setState({title: event.currentTarget.value})
     }
 
     handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({description: event.currentTarget.name});
+        this.setState({description: event.currentTarget.value});
     }
 
     handleLocationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({location: event.currentTarget.name});
+        this.setState({location: event.currentTarget.value});
     }
 
     handleMonthChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -74,6 +84,7 @@ export default class AddEvent extends React.Component<MyProp>{
     handleStartHourChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         let hour = Number(event.currentTarget.value);
         this.setState({date: dateFns.setHours(this.state.date, hour)});
+        this.setState({endTime: dateFns.setHours(this.state.endTime, dateFns.getHours(dateFns.addHours(hour, 1)))});
     }
 
     handleEndHourChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -233,7 +244,7 @@ export default class AddEvent extends React.Component<MyProp>{
                         </label>
                         <input type = "text" value = {this.state.description} onChange = {this.handleDescriptionChange} />
                         <br />
-                        <input type = "submit" value = "Submit" onSubmit = {this.handleSubmit} />
+                        <button onClick = {this.handleSubmit}>{this.props.action ? "Add Event!" : "Edit Event!"}</button>
                     </form>
                 </div>
             </div>
