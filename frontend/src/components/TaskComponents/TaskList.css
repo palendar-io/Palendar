@@ -1,0 +1,60 @@
+.task-container {
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+.task-list-header {
+    justify-content: center;
+    text-align: center;
+    margin-top: 1%;
+    border-bottom: 1px solid grey;
+    padding-bottom: 1%;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.task-list-header button{
+    float: right;
+    margin-top: 1%;
+}
+
+.task-list-tasks {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+}
+
+.task-list-main{
+    flex-grow: 2;
+    margin: 2%;
+    text-align: center;
+}
+
+.task-list-main:nth-child(odd) { 
+    background-color:#F1F1F1;
+}
+
+.task-list-side{
+    flex-grow: 1;
+    margin: 2%;
+    text-align: center;
+}
+
+.task-list-task-header {
+    border-bottom: 1px solid grey;
+}
+
+.task-list-task {
+    margin: 1%;
+}
+
+.task-list-main-header {
+    font-weight: bold;
+    font-size: 18;
+}
+
+.task-list-side-header {
+    font-weight: bold;
+    font-size: 18;
+}

@@ -1,23 +1,11 @@
 import axios from "axios";
 
 export function getTasks(userid: String){
-    axios.get(`http://localhost:4000/api/tasks/${userid}`)
-        .then(res => {
-            console.log(res);
-            return res;
-        });
-
-    return [{_id: "", name: "", date: new Date(), description: "", complete: false, failed: false, userid: ""}];
+    return axios.get(`http://localhost:4000/api/tasks/${userid}`);
 }
 
 export function getTask(userid: String, id: String){
-    axios.get(`http://localhost:4000/api/tasks/${userid}/${id}`)
-        .then(res => {
-            console.log(res);
-            return res;
-        });
-
-    return {_id: "", name: "", date: new Date(), description: "", complete: false, failed: false, userid: ""}
+    return axios.get(`http://localhost:4000/api/tasks/${userid}/${id}`)
 }
 
 export function addTask(task: object, userid: String){

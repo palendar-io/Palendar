@@ -7,13 +7,9 @@ import { NextFunction } from "connect";
 const router = express.Router();
 
 router.get("", (req: Request, res: Response, next: NextFunction) => {
-    res.send("It's working darling");
-})
+    console.log(`Get: all tasks from ${req.params.userid}`);
 
-router.get("/:userid", (req: Request, res: Response, next: NextFunction) => {
-    console.log(`Get: all events from ${req.params.userid}`);
-
-    taskModel.find({"userid": req.params.userid}, (err, event) => {
+    taskModel.find((err, event) => {
         const eventMap : any = [];
         eventMap.push(event);
         res.send(eventMap);
@@ -21,17 +17,17 @@ router.get("/:userid", (req: Request, res: Response, next: NextFunction) => {
     })
 });
 
-router.get("/:userid/:id", (req: Request, res: Response, next: NextFunction) => {
-    console.log(`Get: an event from ${req.params.userid} that matches ${req.params.id}`);
+router.get("/:id", (req: Request, res: Response, next: NextFunction) => {
+    console.log(`Get: a task from ${req.params.userid} that matches ${req.params.id}`);
 
-    taskModel.find({"userid": req.params.userid, "_id": req.params.id}, (err: any, event: object) => {
+    taskModel.find({"_id": req.params.id}, (err: any, event: object) => {
         res.send(event);
         console.log("success");
     })
 })
 
-router.post("/:userid", (req: Request, res: Response, next: NextFunction) => {
-    console.log(`Post: Create an event ${req.body}`)
+router.post("/", (req: Request, res: Response, next: NextFunction) => {
+    console.log(`Post: Create a task ${req.body}`)
 
     taskModel.create(req.body, (err: any) => {
         if(err) console.log(err);
@@ -39,19 +35,19 @@ router.post("/:userid", (req: Request, res: Response, next: NextFunction) => {
     })
 })
 
-router.put("/:userid/:id", (req: Request, res: Response, next: NextFunction) => {
-    console.log(`Put: Update an event ${req.body}`)
+router.put("/:id", (req: Request, res: Response, next: NextFunction) => {
+    console.log(`Put: Update a task ${req.body}`)
 
-    taskModel.findOneAndUpdate({"userid": req.params.userid, "_id": req.params.id}, req.body, (err) => {
+    taskModel.findOneAndUpdate({"_id": req.params.id}, req.body, (err) => {
         if (err) console.log(err);
         else console.log("success");
     })
 })
 
-router.delete("/:userid/:id", (req: Request, res:Response, next: NextFunction) => {
+router.delete("/:id", (req: Request, res:Response, next: NextFunction) => {
     console.log(`Delete: ${req.params.id}`);
 
-    taskModel.findOneAndDelete({"userid": req.params.userid, "_id": req.params.id}, (err) => {
+    taskModel.findOneAndDelete({"_id": req.params.id}, (err) => {
         if (err) console.log(err);
         else console.log("success");
     })

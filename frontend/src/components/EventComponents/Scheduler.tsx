@@ -13,24 +13,25 @@ class Calendar extends React.Component<MyProps>{
     state = {
       currentMonth: new Date(),
       selectedDate: new Date(), 
+      events: [{_id: "", title: "", date: new Date(), endTime: new Date(), location: "", description: "", userid: ""}],
+      tasks: [{_id: "", title: "", date: new Date(), description: "", complete: false, failed: false, userid: ""}],
     };
-
-    events: event [] = []
-    tasks: task [] = []
-    
     componentDidMount(){
       eventAPI.getEvents("")
+      .then(res => {
+          this.setState({events: res.data[0]});
+          this.state.events.sort((a: event, b:event) => {
+            return a.date.valueOf() - b.date.valueOf();
+          });
+          console.log(this.state.events);
+      })
+      taskAPI.getTasks(this.props.userid)
         .then(res => {
-            console.log(res);
-            this.events = res.data;
+            this.setState({tasks: res.data[0]});
+            this.state.tasks.sort((a: task, b: task) => {
+              return a.date.valueOf() - b.date.valueOf();
+            });
         })
-      this.tasks = taskAPI.getTasks(this.props.userid);
-      this.events.sort((a: event, b:event) => {
-        return a.date.valueOf() - b.date.valueOf();
-      });
-      this.tasks.sort((a: task, b: task) => {
-        return a.date.valueOf() - b.date.valueOf();
-      });
     }
 
     renderHeader() {
@@ -81,22 +82,21 @@ class Calendar extends React.Component<MyProps>{
   
       let days = [];
       let day = startDate;
-      let dayKey = day.toString();
       let formattedDate = "";
-      let cloneEvents = this.events;
-      let cloneTasks = this.tasks;
+      let cloneEvents = this.state.events;
   
       while (day <= endDate) {
         for (let i = 0; i < 7; i++) {
           formattedDate = dateFns.format(day, dateFormat);
           const cloneDay = day;
-          let dayEvents: any[] = [];
+          let dayEvents = [];
           let x = 0;
           while(x < cloneEvents.length && dateFns.compareAsc(cloneEvents[x].date, cloneDay) <= 0){
-              if(dateFns.compareAsc(cloneEvents[x].date, day) === 0 && cloneEvents[x].title !== ""){
-                  let eventString = ` ${dateFns.getHours(this.events[x].date)}:00 - ${dateFns.getHours(this.events[x].endTime)}:00 ${this.events[x].title}`;
+              if(dateFns.compareAsc(cloneEvents[x].date, day) === 0){
+                  let eventString = `${this.state.events[x].title} ${this.state.events[x].date} ${this.state.events[x].endTime}`;
                   dayEvents.push(<div className = "event" key = {x}>{eventString}</div>);
-              } 
+                  //{this.renderModal(this.events[x].name, this.events[x].startTime, this.events[x].endTime, this.events[x].date, this.events[x].description)};
+              }
               x++;
           }
           days.push(
@@ -106,7 +106,7 @@ class Calendar extends React.Component<MyProps>{
                   ? "disabled"
                   : dateFns.isSameDay(day, selectedDate) ? "selected" : ""
               }`}
-              key={dayKey}
+              key={day.toString()}
             >
               <span className = "number">{formattedDate}</span>
               <span className = "bg">{formattedDate}</span>
@@ -116,7 +116,7 @@ class Calendar extends React.Component<MyProps>{
           day = dateFns.addDays(day, 1);
         }
         rows.push(
-          <div className = "row" key={dayKey}>
+          <div className = "row" key={day.toString()}>
             {days}
           </div>
         );

@@ -4,12 +4,12 @@ import dateFns from "date-fns";
 import task from "./task";
 import * as taskAPI from "./taskAPI";
 
-type MyProps = {userid: String, id: String}
+type MyProps = {userid: String, id: String, action: Boolean}
 
 export default class AddTask extends React.Component<MyProps>{
     state = {
         currentDate: new Date(),
-        name: "",
+        title: "",
         date: new Date(),
         description: "",
         complete: false,
@@ -19,30 +19,34 @@ export default class AddTask extends React.Component<MyProps>{
 
     componentDidMount(){
         if(this.props.id){
-            let task = taskAPI.getTask(this.props.userid, this.props.id)
-            this.setState({name: task.name});
-            this.setState({date: task.date});
-            this.setState({description: task.description});
+            taskAPI.getTask(this.props.userid, this.props.id)
+            .then(res => {
+                let task = res.data[0];
+                this.setState({title: task.title});
+                this.setState({date: task.date});
+                this.setState({description: task.description});
+                console.log(task);
+            })
         }
     }
 
-    handleSubmit = (event: React.FormEvent<HTMLInputElement>) => {
+    handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
-        if(this.props.id){
+        if(this.props.id !== ""){
             taskAPI.updateTask(
                 this.props.id
-                , {title: this.state.name, date: this.state.date, description: this.state.description, userid: this.props.userid}
+                , {title: this.state.title, date: this.state.date, description: this.state.description, complete: false, failed: false, userid: this.props.userid}
                 , this.props.userid);
         }
         else{
             taskAPI.addTask(
-                {title: this.state.name, date: this.state.date,  description: this.state.description, userid: this.props.userid}
+                {title: this.state.title, date: this.state.date,  description: this.state.description, complete: false, failed: false, userid: this.props.userid}
                 , this.props.userid);
         }
     }
 
     handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({name: event.currentTarget.value});
+        this.setState({title: event.currentTarget.value});
     }
     
     handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -135,10 +139,16 @@ export default class AddTask extends React.Component<MyProps>{
         let day = dateFns.getDate(this.state.date);
         if(year === dateFns.getYear(this.state.currentDate) && month === dateFns.getMonth(this.state.currentDate)
             && day === dateFns.getDate(this.state.currentDate)){
-                let hour = dateFns.getHours(this.state.currentDate);
+                let hour = dateFns.getHours(this.state.currentDate) + 1;
                 while(hour <= 24){
-                    hours.push(<option value = {hour} key = {hour}>{hour}:00</option>);
-                    hour++;
+                    if(hour < 10){
+                        hours.push(<option value = {hour} key = {hour}>0{hour}:00</option>);
+                        hour++;
+                    }
+                    else{
+                        hours.push(<option value = {hour} key = {hour}>{hour}:00</option>);
+                        hour++;
+                    }
                 }
         }
         else{
@@ -176,14 +186,18 @@ export default class AddTask extends React.Component<MyProps>{
                     <label>
                         Name:
                     </label>
-                    <input type = "text" value = {this.state.name} onChange = {this.handleNameChange} />
+                    <input type = "text" value = {this.state.title} onChange = {this.handleNameChange} />
+                    <br />
                     Year: {this.getYears()} Month: {this.getMonths()} Day: {this.getMonthDays()}
+                    <br />
                     Time Due: {this.getStartHours()}
+                    <br />
                     <label>
                         Description:
                     </label>
                     <input type = "text" value = {this.state.description} onChange = {this.handleDescriptionChange} />
-                    <input type = "submit" value = "Submit" onSubmit = {this.handleSubmit} /> 
+                    <br />
+                    <button onClick = {this.handleSubmit}>{this.props.action ? "Create Task" : "Update Task"}</button>
                 </form>
             </div>
         )

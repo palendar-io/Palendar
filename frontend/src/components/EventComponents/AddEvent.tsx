@@ -158,10 +158,16 @@ export default class AddEvent extends React.Component<MyProps>{
         let day = dateFns.getDate(this.state.date);
         if(year === dateFns.getYear(this.state.currentDate) && month === dateFns.getMonth(this.state.currentDate)
             && day === dateFns.getDate(this.state.currentDate)){
-                let hour = dateFns.getHours(this.state.currentDate);
+                let hour = dateFns.getHours(this.state.currentDate) + 1;
                 while(hour <= 24){
-                    hours.push(<option value = {hour} key = {hour}>{hour}:00</option>);
-                    hour++;
+                    if(hour < 10){
+                        hours.push(<option value = {hour} key = {hour}>0{hour}:00</option>);
+                        hour++;
+                    }
+                    else{
+                        hours.push(<option value = {hour} key = {hour}>{hour}:00</option>);
+                        hour++;
+                    }
                 }
         }
         else{

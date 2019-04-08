@@ -1,7 +1,7 @@
 "use strict";
 var mongoose = require("mongoose");
 var taskSchema = new mongoose.Schema({
-    name: String,
+    title: String,
     date: Date,
     description: String,
     complete: Boolean,

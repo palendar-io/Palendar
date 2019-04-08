@@ -20,6 +20,7 @@ class App extends Component {
           <Route exact path="/" component={LandingPage} />
           <Route path="/auth" component={AuthPage} />
           <Route path="/dashboard" component={DashboardPage} />
+          <Route path = "/tasks" component = {TaskListPage} />
         </Switch>
       </BrowserRouter>
     );

@@ -81,7 +81,6 @@ class EventList extends React.Component<MyProps>{
         let dateFormat = "MMMM D YYYY"
         this.state.events.forEach(element => {
             if(element.title !== ""){
-                console.log(element)
                 event.push(
                     <div className = "eventItem" key = {x}> 
                     <div className = "eventHeader">
