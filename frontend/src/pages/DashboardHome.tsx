@@ -4,7 +4,7 @@ import Chart from "chart.js";
 export default class DashboardHome extends Component {
   render() {
     return (
-      <div className="uk-margin-xlarge-left uk-margin-top">
+      <div className="uk-margin-xlarge-left uk-margin-large-top">
         <div className="uk-width-1-2@s uk-width-1-3@l uk-width-1-4@xl">
           <div className="uk-card uk-card-default uk-card-small uk-card-hover">
             <div className="uk-card-header">
