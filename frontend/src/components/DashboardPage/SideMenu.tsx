@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 import "./dashboard.css";
 import ProfileImage from "../../images/avatar.svg";
@@ -78,13 +78,15 @@ export default class SideMenu extends Component {
               <li className="uk-nav-header">ACTIONS</li>
 
               <li>
-                <a href="#">
-                  <span
-                    data-uk-icon="icon: home"
-                    className="uk-margin-small-right"
-                  />
-                  Home
-                </a>
+                <NavLink to="/dashboard/home">
+                  <a href="#">
+                    <span
+                      data-uk-icon="icon: home"
+                      className="uk-margin-small-right"
+                    />
+                    Home
+                  </a>
+                </NavLink>
               </li>
 
               <li>
@@ -99,20 +101,22 @@ export default class SideMenu extends Component {
                 </NavLink>
               </li>
               <li className="uk-parent">
-                <a href="#">
-                  <span
-                    data-uk-icon="icon: comments"
-                    className="uk-margin-small-right"
-                  />
-                  Messages
-                </a>
+                <NavLink to="/dashboard/messages">
+                  <a href="#">
+                    <span
+                      data-uk-icon="icon: comments"
+                      className="uk-margin-small-right"
+                    />
+                    Messages
+                  </a>
+                </NavLink>
                 <ul className="uk-nav-sub">
                   <li>
                     <a
                       title="Article"
                       href="https://zzseba78.github.io/Kick-Off/article.html"
                     >
-                      Article
+                      Friends
                     </a>
                   </li>
                   <li>
@@ -120,7 +124,7 @@ export default class SideMenu extends Component {
                       title="Album"
                       href="https://zzseba78.github.io/Kick-Off/album.html"
                     >
-                      Album
+                      Family
                     </a>
                   </li>
                   <li>
@@ -128,7 +132,7 @@ export default class SideMenu extends Component {
                       title="Cover"
                       href="https://zzseba78.github.io/Kick-Off/cover.html"
                     >
-                      Cover
+                      Work
                     </a>
                   </li>
                   <li>
@@ -136,7 +140,7 @@ export default class SideMenu extends Component {
                       title="Cards"
                       href="https://zzseba78.github.io/Kick-Off/cards.html"
                     >
-                      Cards
+                      Ted Rogers
                     </a>
                   </li>
                   <li>
@@ -144,7 +148,7 @@ export default class SideMenu extends Component {
                       title="News Blog"
                       href="https://zzseba78.github.io/Kick-Off/newsBlog.html"
                     >
-                      News Blog
+                      Alexandar Bell
                     </a>
                   </li>
                   <li>
@@ -152,44 +156,21 @@ export default class SideMenu extends Component {
                       title="Price"
                       href="https://zzseba78.github.io/Kick-Off/price.html"
                     >
-                      Price
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      title="Login"
-                      href="https://zzseba78.github.io/Kick-Off/login.html"
-                    >
-                      Login
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      title="Login-Dark"
-                      href="https://zzseba78.github.io/Kick-Off/login-dark.html"
-                    >
-                      Login - Dark
+                      Harry Telus
                     </a>
                   </li>
                 </ul>
               </li>
               <li>
-                <a href="#">
-                  <span
-                    data-uk-icon="icon: list"
-                    className="uk-margin-small-right"
-                  />
-                  Tasks & Events
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <span
-                    data-uk-icon="icon: thumbnails"
-                    className="uk-margin-small-right"
-                  />
-                  Featured Content
-                </a>
+                <Link to="events">
+                  <a href="#">
+                    <span
+                      data-uk-icon="icon: list"
+                      className="uk-margin-small-right"
+                    />
+                    Tasks & Events
+                  </a>
+                </Link>
               </li>
               <li>
                 <a href="#">
