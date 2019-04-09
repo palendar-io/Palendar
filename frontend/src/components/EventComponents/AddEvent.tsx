@@ -89,7 +89,10 @@ export default class AddEvent extends React.Component<MyProps>{
 
     handleEndHourChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         let hour = Number(event.currentTarget.value);
+        console.log(dateFns.setHours(this.state.endTime, hour))
         this.setState({endTime: dateFns.setHours(this.state.endTime, hour)});
+        console.log(event.currentTarget.value);
+        console.log(this.state.endTime);
     }
 
     getMonthDays(){       
@@ -159,7 +162,7 @@ export default class AddEvent extends React.Component<MyProps>{
         if(year === dateFns.getYear(this.state.currentDate) && month === dateFns.getMonth(this.state.currentDate)
             && day === dateFns.getDate(this.state.currentDate)){
                 let hour = dateFns.getHours(this.state.currentDate) + 1;
-                while(hour <= 24){
+                while(hour < 24){
                     if(hour < 10){
                         hours.push(<option value = {hour} key = {hour}>0{hour}:00</option>);
                         hour++;
@@ -197,12 +200,11 @@ export default class AddEvent extends React.Component<MyProps>{
         }
         else{
             let hour = dateFns.getHours(this.state.date) + 1;
-            while(hour < 24){
+            while(hour <= 24){
                 hours.push(<option value = {hour} key = {hour}>{hour}:00</option>);
                 hour++;
             }
         }
-        console.log(dateFns.getHours(this.state.endTime));
         return(
             <select name = "startYear" value = {dateFns.getHours(this.state.endTime)} onChange = {this.handleEndHourChange}>{hours}</select>
         )

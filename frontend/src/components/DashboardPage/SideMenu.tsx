@@ -77,8 +77,8 @@ export default class SideMenu extends Component {
             >
               <li className="uk-nav-header">ACTIONS</li>
 
-              {/* <li>
-                <NavLink to="/dashboard/home">
+              <li>
+                <NavLink to="/dashboard/calendar">
                   <a href="#">
                     <span
                       data-uk-icon="icon: calendar"
@@ -87,7 +87,7 @@ export default class SideMenu extends Component {
                     Calendar
                   </a>
                 </NavLink>
-              </li> */}
+              </li>
 
               <li>
                 <NavLink to="/dashboard/messages">
@@ -102,7 +102,7 @@ export default class SideMenu extends Component {
                 
               </li>
               <li>
-                <NavLink to="/dashboard/messages">
+                <NavLink to="tasks">
                   <a href="#">
                     <span
                       data-uk-icon="icon: list"
@@ -120,6 +120,17 @@ export default class SideMenu extends Component {
                       className="uk-margin-small-right"
                     />
                     Events
+                  </a>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="toEvents">
+                  <a href="#">
+                    <span
+                      data-uk-icon="icon: star"
+                      className="uk-margin-small-right"
+                    />
+                    Events in Toronto
                   </a>
                 </NavLink>
               </li>

@@ -1,14 +1,13 @@
 .task-container {
-    
-    margin-left: 25%;
-    margin-right: 25%;
+    margin-top:90px;
+    margin-left: 25.5%;
+    margin-right: 25.5%;
 }
 
 .task-list-header {
     justify-content: center;
-    text-align: center;
+    text-align: left;
     margin-top: 1%;
-    border-bottom: 1px solid grey;
     padding-bottom: 1%;
     font-size: 24px;
     font-weight: bold;
@@ -28,7 +27,6 @@
 
 .task-list-main{
     flex-grow: 2;
-    margin: 2%;
     text-align: center;
 }
 
@@ -38,16 +36,11 @@
 
 .task-list-side{
     flex-grow: 1;
-    margin: 2%;
     text-align: center;
 }
 
 .task-list-task-header {
     border-bottom: 1px solid grey;
-}
-
-.task-list-task {
-    margin: 1%;
 }
 
 .task-list-main-header {

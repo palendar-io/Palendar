@@ -20,6 +20,7 @@ class EventList extends React.Component<MyProps>{
     state = {
         addModalIsOpen: false,
         editModalIsOpen: false,
+        deleteModalIsOpen: false,
         events: [{_id: "", title: "", date: new Date(), endTime: new Date(), location: "", description: "", userid: ""}],
     }
 
@@ -66,13 +67,21 @@ class EventList extends React.Component<MyProps>{
         })
     }
 
+    openDeleteModal = () => {
+        this.setState({deleteModalIsOpen: true});
+    }
+
+    closeDeleteModal = () => {
+        this.setState({deleteModalIsOpen: false});
+    }
+
     handleDelete = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: String) => {
         event.preventDefault();
         eventAPI.deleteEvent(id, this.props.userid);
         eventAPI.getEvents("")
-        .then(res => {
-            this.setState({events: res.data[0]});
-        })  
+            .then(res => {
+                this.setState({events: res.data[0]});
+            })  
     }
 
     renderList(){
@@ -96,7 +105,17 @@ class EventList extends React.Component<MyProps>{
                                 <button onClick = {this.closeEditModal}>Close</button>
 
                             </Modal>
-                            <button onClick = {(event) => this.handleDelete(event,  element._id)}>Delete</button>
+                            <button onClick = {this.openDeleteModal}>Delete</button>
+                            <Modal
+                                isOpen={this.state.deleteModalIsOpen}
+                                onRequestClose = {this.closeDeleteModal}
+                                style = {this.customStyles}
+                                contentLabel = "Edit Event">
+                                <p>Are you sure you would like the delete?!</p>
+                                <button onClick = {(event) => this.handleDelete(event,  element._id)}>Delete</button>
+                                <button onClick = {this.closeDeleteModal}>Close</button>
+
+                            </Modal>
                         </span>
                     </div>
                     <div className = "eventTime">

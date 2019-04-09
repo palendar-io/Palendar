@@ -16,7 +16,9 @@ class TaskList extends React.Component<MyProps>{
         tasksFailed: 0,
         modalIsOpen: false,
         tasks: [{_id: "", title: "", date: new Date(), description: "", complete: false, failed: false, userid: ""}],
-        dateFormat: "MMMM D YYYY"
+        dateFormat: "MMMM D YYYY",
+        deleteModalIsOpen: false,
+        editModalIsOpen: false,
     }
 
     customStyles = {
@@ -38,9 +40,11 @@ class TaskList extends React.Component<MyProps>{
 
     componentDidMount(){
         Modal.setAppElement('body');
-        taskAPI.getTasks(this.props.userid)
+        taskAPI.getTasks("")
             .then(res => {
                 this.setState({tasks: res.data[0]});
+                console.log(res.data[0]);
+                console.log(this.state.tasks);
             });
     }
 
@@ -56,9 +60,29 @@ class TaskList extends React.Component<MyProps>{
             })
     }
 
+    openEditModal = () => {
+        this.setState({modalIsOpen: true});
+    }
+
+    closeEditModal = () => {
+        this.setState({deleteModalIsOpen: false});
+        taskAPI.getTasks("")
+            .then(res => {
+                this.setState({tasks: res.data[0]});
+            })
+    }
+
+    openDeleteModal = () => {
+        this.setState({deleteModalIsOpen: true});
+    }
+
+    closeDeleteModal = () => {
+        this.setState({deleteModalIsOpen: false});
+    }
+
     handleDelete(event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: String){
         event.preventDefault();
-        taskAPI.deleteTask(id, this.props.userid);
+        taskAPI.deleteTask(id, "");
         taskAPI.getTasks("")
             .then(res => {
                 this.setState({tasks: res.data[0]});
@@ -116,22 +140,30 @@ class TaskList extends React.Component<MyProps>{
         let x = 0
         this.state.tasks.forEach(task => {
             if(task.failed === false && task.complete === false && task.title !== ""){
-                console.log(this.state.tasks);
                 ongoingTasks.push(
                     <div className = "task-list-task" key = {x}>
                         <div className = "task-list-task-header">{task.title}</div>
                         <div className = "task-list-buttons">
                             <button>Complete</button>
-                            <button onClick = {this.openModal}>Edit</button>
+                            <button onClick = {this.openEditModal}>Edit</button>
                             <Modal
-                                isOpen={this.state.modalIsOpen}
-                                onRequestClose = {this.closeModal}
+                                isOpen={this.state.editModalIsOpen}
+                                onRequestClose = {this.closeEditModal}
                                 style = {this.customStyles}
                                 contentLabel = "Event">
                                 <AddTask userid = "" id = {task._id} action = {false} />
                                 <button onClick = {this.closeModal}>Close</button>
                             </Modal>
-                            <button onClick = {(event) => this.handleDelete(event,  task._id)}>Delete</button>
+                            <button onClick = {this.openDeleteModal}>Delete</button>
+                            <Modal
+                                isOpen={this.state.deleteModalIsOpen}
+                                onRequestClose = {this.closeDeleteModal}
+                                style = {this.customStyles}
+                                contentLabel = "Event">
+                                <p>Are you sure you want to delete?</p>
+                                <button onClick = {(event) => this.handleDelete(event,  task._id)}>Delete</button>
+                                <button onClick = {this.closeEditModal}>Close</button>
+                            </Modal>
                         </div>
                         <div className = "task-list-task-date">
                         Date Due: {dateFns.format(task.date, this.state.dateFormat)} {dateFns.format(task.date, "HH")}:00
@@ -160,6 +192,7 @@ class TaskList extends React.Component<MyProps>{
                         style = {this.customStyles}
                         contentLabel = "Event">
                         <AddTask userid = "" id = "" action = {true} />
+                        <button onClick = {this.closeModal}> Close</button>
                     </Modal>
                 </div>
                 <div className = "task-list-tasks">

@@ -30,6 +30,10 @@
     float: right;
   }
 
+  .eventList{
+    margin-top: 90px;
+  }
+
   .eventList-header{
       text-align: left;
       margin-left:25.5%;
